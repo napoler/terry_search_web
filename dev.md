@@ -21,10 +21,10 @@ source <venv>/bin/activate
 
 ##　安装依赖
 生成requirements.txt文件
-pip freeze > requirements.txt
+pip3 freeze > requirements.txt
 
 安装requirements.txt依赖
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 
 

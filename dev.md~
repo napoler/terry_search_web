@@ -29,3 +29,7 @@ pip install -r requirements.txt
 
 
 #安装依赖
+http://chromedriver.chromium.org/downloads
+
+
+sudo apt-get install chromium chromium-l10n -y
