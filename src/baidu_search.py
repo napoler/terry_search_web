@@ -48,7 +48,7 @@ class BaiduSearch:
                     # print(s_data)
                     next_url = s_data['next_url']
                     print(next_url)
-                
+
                 n = n+1
                 # next_url=''
             return data,kws
@@ -140,7 +140,7 @@ class BaiduSearch:
                 print('相关关键词')
                 kws=[]
                 for kw in rs:
-                    
+
                     # print(kw.text)
                     kws.append(kw.text)
 
@@ -152,7 +152,7 @@ class BaiduSearch:
                         'url':element.h3.a['href']
 
                     }
-                    # print('标题：', element.h3.a.text)
+                    print('获取资源： ', element.h3.a.text)
                     # print('链接：', element.h3.a['href'])
                     # print(
                     #     '===============================================================')
@@ -236,7 +236,7 @@ class BaiduSearch:
                         'url':element.h3.a['href']
 
                     }
-                    # print('标题：', element.h3.a.text)
+                    print('获取资源： ', element.h3.a.text)
                     # print('链接：', element.h3.a['href'])
                     # print(
                     #     '===============================================================')

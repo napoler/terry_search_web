@@ -108,7 +108,7 @@ class UrlText:
                 # WebDriverWait(driver, 10).until(
                 #     expected_conditions.title_contains(keyword))
                 time.sleep(3)
-                # print(driver.title)
+                print('采集网页: '+driver.title)
                 logging.info('加载成功网页: '+driver.title)
                 html = driver.page_source #浏览器中elements的内容
             except:

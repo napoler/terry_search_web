@@ -4,6 +4,7 @@ import time
 import random
 import csv
 import os
+import hashlib
 # TEXT_PATH ="./data/corpu/"
 TEXT_PATH ="./data/article/"
 ARTICLE_PATH ="./data/article/"
@@ -58,14 +59,14 @@ def bsearch():
                 print("开始处理 "+str(n))
                 t = time.time()
 
-                
+
 
 
 
                 if n % 10 == 0:
                     # file_name= PATH+'corpu'+str(hash(item['url']))+".txt"
                     file_name= TEXT_PATH+'corpu'+str(t)+".txt"
-                
+
                 # 这是整合五篇文章
                 # my_open = open(file_name, 'a')
 
@@ -84,7 +85,7 @@ def bsearch():
                     text = "\n".join(sentence)
                     #保存单篇文章
                     save_article(str(text))
-                    
+
 
 
                     # while '' in n:
@@ -92,7 +93,7 @@ def bsearch():
                     # # whe
                     # print(n)
                     # print("\n".join(n))
-                    
+
                     # 这是整合五篇文章
                     # my_open.write(str(text)+'\n\n')
                     # my_open.close()
@@ -104,7 +105,8 @@ def bsearch():
 def save_article(text):
     # 存储单篇文章
     # ARTICLE_PATH
-    articlefile= 'article_'+str(hash(text))+'.txt'
+    md5_val = hashlib.md5(text.encode('utf8')).hexdigest()
+    articlefile= 'article_'+str(md5_val)+'.txt'
     if os.path.isfile(ARTICLE_PATH+articlefile):
         print("文件已经存在跳过")
     else:

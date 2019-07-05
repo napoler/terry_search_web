@@ -25,11 +25,15 @@ class BaiduSearch:
         if s_data:
             data = s_data['data']
             next_url = s_data['next_url']
+            print("相关词为")
+            print(s_data['kws'])
+            kws = s_data['kws']
             n = 0
             while  n < num:
-            #   print(num)
+                print('下一页')
+                print(n)
                 logging.info(n)
-                if len(next_url) >20:
+                if len(next_url) >10:
                     t = random.randint(1,5)
                     logging.info('搜索结束休息中 '+str(t)+'s')
                     time.sleep(t)
@@ -40,12 +44,16 @@ class BaiduSearch:
                         return False
 
                     data = data + s_data['data']
+
+                    # print(s_data)
                     next_url = s_data['next_url']
+                    print(next_url)
+
                 n = n+1
-                next_url=''
-            return data
+                # next_url=''
+            return data,kws
         else:
-            return []
+            return [],[]
 
 
     def search_first(self,keyword):
@@ -61,17 +69,17 @@ class BaiduSearch:
             else:
                 chrome_options.add_argument('--headless')
 
-           prefs = {'profile.default_content_setting_values': {
-                            'cookies': 2, 'images': 2, 'javascript': 2,
-                            'plugins': 2, 'popups': 2, 'geolocation': 2,
-                            'notifications': 2, 'auto_select_certificate': 2, 'fullscreen': 2,
-                            'mouselock': 2, 'mixed_script': 2, 'media_stream': 2,
-                            'media_stream_mic': 2, 'media_stream_camera': 2, 'protocol_handlers': 2,
-                            'ppapi_broker': 2, 'automatic_downloads': 2, 'midi_sysex': 2,
-                            'push_messaging': 2, 'ssl_cert_decisions': 2, 'metro_switch_to_desktop': 2,
-                            'protected_media_identifier': 2, 'app_banner': 2, 'site_engagement': 2,
-                            'durable_storage': 2}}
-            chrome_options.add_experimental_option("prefs", prefs)
+        #    prefs = {'profile.default_content_setting_values': {
+        #                     'cookies': 2, 'images': 2, 'javascript': 2,
+        #                     'plugins': 2, 'popups': 2, 'geolocation': 2,
+        #                     'notifications': 2, 'auto_select_certificate': 2, 'fullscreen': 2,
+        #                     'mouselock': 2, 'mixed_script': 2, 'media_stream': 2,
+        #                     'media_stream_mic': 2, 'media_stream_camera': 2, 'protocol_handlers': 2,
+        #                     'ppapi_broker': 2, 'automatic_downloads': 2, 'midi_sysex': 2,
+        #                     'push_messaging': 2, 'ssl_cert_decisions': 2, 'metro_switch_to_desktop': 2,
+        #                     'protected_media_identifier': 2, 'app_banner': 2, 'site_engagement': 2,
+        #                     'durable_storage': 2}}
+        #     chrome_options.add_experimental_option("prefs", prefs)
             chrome_options.add_argument('--disable-gpu')
 
             # 调用环境变量指定的chrome浏览器创建浏览器对象
@@ -126,6 +134,16 @@ class BaiduSearch:
                 # print(''.join(nums))
                 #下一页链接
                 next_url = bsobj.find('a', {'class': 'n'})
+                #获取相关词
+                rs = bsobj.find('div', {'id': 'rs'}).find_all('a')
+                # kws = rs.find_all('a')
+                print('相关关键词')
+                kws=[]
+                for kw in rs:
+
+                    # print(kw.text)
+                    kws.append(kw.text)
+
                 elements = bsobj.findAll('div', {'class': re.compile('c-container')})
                 data =[]
                 for element in elements:
@@ -134,13 +152,14 @@ class BaiduSearch:
                         'url':element.h3.a['href']
 
                     }
-                    # print('标题：', element.h3.a.text)
+                    print('获取资源： ', element.h3.a.text)
                     # print('链接：', element.h3.a['href'])
                     # print(
                     #     '===============================================================')
                     data.append(item)
 
                 full = {'data':data,
+                        'kws':kws,
                         'next_url':'http://www.baidu.com'+next_url['href']
                         }
             except:
@@ -203,7 +222,13 @@ class BaiduSearch:
                 # print(''.join(nums))
                 #下一页链接
                 next_url = bsobj.find('a', {'class': 'n'})
+
+
+
+
                 elements = bsobj.findAll('div', {'class': re.compile('c-container')})
+
+
                 data =[]
                 for element in elements:
                     item= {
