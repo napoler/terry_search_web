@@ -9,7 +9,7 @@ decorator==4.4.0
 html2text==2018.1.9
 idna==2.8
 jieba==0.39
-lxml==4.3.3
+lxml==4.9.1
 MagicBaidu==0.0.9
 networkx==2.3
 numpy==1.16.3
